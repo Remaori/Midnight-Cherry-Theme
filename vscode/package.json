@@ -1,0 +1,40 @@
+{
+  "name": "midnight-cherry",
+  "displayName": "Midnight Cherry",
+  "description": "A dark theme with cherry accents on a deep midnight-indigo background.",
+  "version": "0.1.0",
+  "publisher": "Remaori",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Remaori/Midnight-Cherry-Theme"
+  },
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "dark",
+    "dark-theme",
+    "cherry",
+    "midnight",
+    "indigo",
+    "color-theme"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Midnight Cherry",
+        "uiTheme": "vs-dark",
+        "path": "./themes/midnight-cherry-color-theme.json"
+      }
+    ]
+  },
+  "galleryBanner": {
+    "color": "#0e0c25",
+    "theme": "dark"
+  }
+}
