@@ -4,7 +4,7 @@
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.70%2B-ae80ff?style=flat-square&labelColor=0e0c25)](#vs-code-1)
 [![License: MIT](https://img.shields.io/badge/license-MIT-b0b7ff?style=flat-square&labelColor=0e0c25)](LICENSE)
 
-A dark theme with cherry accents on a midnight-indigo background, for **Xcode**, **VS Code**, **Terminal.app**, **iTerm2** and **Ghostty**.
+A dark theme with cherry accents on a midnight-indigo background, for **Xcode**, **VS Code**, **Terminal.app**, **iTerm2**, **Ghostty** and **Obsidian**.
 
 ### Xcode
 
@@ -79,6 +79,15 @@ npx @vscode/vsce package
   mkdir -p ~/.config/ghostty/themes
   cp "terminal/ghostty/Midnight Cherry" ~/.config/ghostty/themes/
   ```
+
+### Obsidian
+
+1. Copy `obsidian/theme.css` and `manifest.json` into a `Midnight Cherry` folder inside your vault's themes folder:
+   ```bash
+   mkdir -p "<your vault>/.obsidian/themes/Midnight Cherry"
+   cp obsidian/theme.css manifest.json "<your vault>/.obsidian/themes/Midnight Cherry/"
+   ```
+2. Select **Midnight Cherry** in **Settings → Appearance → Themes**, with **Base color scheme** set to **Dark**.
 
 ## License
 
