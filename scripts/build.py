@@ -3,7 +3,7 @@
 
 Usage: python3 scripts/build.py
 """
-import colorsys, json, math, plistlib, re
+import colorsys, json, math, plistlib, re, shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -217,6 +217,8 @@ semantic = {
 theme = {"$schema": "vscode://schemas/color-theme", "name": "Midnight Cherry", "type": "dark", "semanticHighlighting": True,
          "colors": ui, "tokenColors": tokens, "semanticTokenColors": semantic}
 (ROOT / 'vscode/themes/midnight-cherry-color-theme.json').write_text(json.dumps(theme, indent=2))
+for f in ('LICENSE', 'CHANGELOG.md'):  # the Marketplace reads these from the extension folder
+    shutil.copy(ROOT / f, ROOT / 'vscode' / f)
 
 # ---------- Terminals ----------
 bg, fg, cursor, sel = P['consoleBackground'], P['plainText'], P['insertionPointColor'], P['selectedTextBackgroundColor']
@@ -292,8 +294,8 @@ README_PALETTE = [
 ]
 table = '| Element | Hex | |\n|---|---|---|\n' + '\n'.join(
     f"| {label} | `{P[n]}` | ![](https://placehold.co/16x16/{P[n][1:]}/{P[n][1:]}.png) |" for label, n in README_PALETTE)
-readme = ROOT / 'README.md'
-text, count = re.subn(r'(<!-- palette:start -->\n).*?(\n<!-- palette:end -->)', lambda m: m[1] + table + m[2],
-                      readme.read_text(encoding='utf-8'), flags=re.S)
-assert count == 1, 'README.md must contain exactly one <!-- palette:start --> ... <!-- palette:end --> block'
-readme.write_text(text, encoding='utf-8')
+for readme in ('README.md', 'vscode/README.md'):
+    text, count = re.subn(r'(<!-- palette:start -->\n).*?(<!-- palette:end -->)', lambda m: m[1] + table + '\n' + m[2],
+                          (ROOT / readme).read_text(encoding='utf-8'), flags=re.S)
+    assert count == 1, f'{readme} must contain exactly one <!-- palette:start --> ... <!-- palette:end --> block'
+    (ROOT / readme).write_text(text, encoding='utf-8')
