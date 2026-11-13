@@ -4,7 +4,7 @@
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.70%2B-ae80ff?style=flat-square&labelColor=0e0c25)](#vs-code-1)
 [![License: MIT](https://img.shields.io/badge/license-MIT-b0b7ff?style=flat-square&labelColor=0e0c25)](LICENSE)
 
-A dark theme with cherry accents on a deep midnight-indigo background, for **Xcode** and **VS Code**.
+A dark theme with cherry accents on a midnight-indigo background, for **Xcode** and **VS Code**.
 
 ### Xcode
 
