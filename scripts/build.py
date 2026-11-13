@@ -258,6 +258,11 @@ ghostty = [f'palette = {i}={h}' for i, h in enumerate(ANSI)] + [
 (ROOT / 'terminal/ghostty/Midnight Cherry').write_text('\n'.join(ghostty) + '\n')
 
 # ---------- Obsidian ----------
+# The version lives in vscode/package.json; Obsidian's store needs the manifest to match the release tag.
+manifest = json.loads((ROOT / 'manifest.json').read_text())
+manifest['version'] = json.loads((ROOT / 'vscode/package.json').read_text())['version']
+(ROOT / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+
 ah, al, as_ = colorsys.rgb_to_hls(*rgb(P['keyword']))
 obs = {
  '--accent-h': f'{ah*360:.1f}', '--accent-s': f'{as_*100:.1f}%', '--accent-l': f'{al*100:.1f}%',
