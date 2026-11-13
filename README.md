@@ -16,6 +16,7 @@ A dark theme with cherry accents on a midnight-indigo background, for **Xcode** 
 
 ## Palette
 
+<!-- palette:start -->
 | Element | Hex | |
 |---|---|---|
 | Background | `#0e0c25` | ![](https://placehold.co/16x16/0e0c25/0e0c25.png) |
@@ -34,6 +35,7 @@ A dark theme with cherry accents on a midnight-indigo background, for **Xcode** 
 | Links | `#4495ea` | ![](https://placehold.co/16x16/4495ea/4495ea.png) |
 | Selection | `#682146` | ![](https://placehold.co/16x16/682146/682146.png) |
 | Cursor | `#ff5d82` | ![](https://placehold.co/16x16/ff5d82/ff5d82.png) |
+<!-- palette:end -->
 
 ## Installation
 
