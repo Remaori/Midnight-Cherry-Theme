@@ -14,6 +14,14 @@ A dark theme with cherry accents on a midnight-indigo background, for **Xcode**,
 
 ![Midnight Cherry in VS Code](screenshots/vscode.png)
 
+### Terminal
+
+![Midnight Cherry in Terminal.app](screenshots/terminal.png)
+
+### Obsidian
+
+![Midnight Cherry in Obsidian](screenshots/obsidian.png)
+
 ## Palette
 
 <!-- palette:start -->
