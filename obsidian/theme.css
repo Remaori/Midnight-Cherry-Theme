@@ -50,3 +50,7 @@
   --color-pink: #f0aeff;
   --color-pink-rgb: 240, 174, 255;
 }
+.theme-dark .token.class-name,
+.theme-dark .cm-type {
+  color: #ae80ff;
+}
