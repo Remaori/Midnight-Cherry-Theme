@@ -4,7 +4,7 @@
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.70%2B-ae80ff?style=flat-square&labelColor=0e0c25)](#vs-code-1)
 [![License: MIT](https://img.shields.io/badge/license-MIT-b0b7ff?style=flat-square&labelColor=0e0c25)](LICENSE)
 
-A dark theme with cherry accents on a midnight-indigo background, for **Xcode** and **VS Code**.
+A dark theme with cherry accents on a midnight-indigo background, for **Xcode**, **VS Code**, **Terminal.app**, **iTerm2** and **Ghostty**.
 
 ### Xcode
 
@@ -69,6 +69,16 @@ Alternatively, package it as a `.vsix` and install it with **Extensions → … 
 cd vscode
 npx @vscode/vsce package
 ```
+
+### Terminal
+
+- **Terminal.app:** double-click `terminal/Midnight Cherry.terminal`, then select **Midnight Cherry** in **Settings → Profiles** and click **Default**.
+- **iTerm2:** open **Settings → Profiles → Colors → Color Presets… → Import…**, choose `terminal/Midnight Cherry.itermcolors`, then pick **Midnight Cherry** from the same menu.
+- **Ghostty:** copy the theme into Ghostty's themes folder, then add `theme = Midnight Cherry` to your Ghostty config:
+  ```bash
+  mkdir -p ~/.config/ghostty/themes
+  cp "terminal/ghostty/Midnight Cherry" ~/.config/ghostty/themes/
+  ```
 
 ## License
 

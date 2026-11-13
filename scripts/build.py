@@ -55,6 +55,13 @@ OPACITY_ROLES = {'currentLineHighlight', 'selectedTextBackgroundColor'}  # Xcode
 P = {name: to_hex(*v) for name, v in OK.items()}
 P.update({role: P[name] for role, name in XCODE.items()})
 
+# 16 ANSI colors (normal, then bright), shared by VS Code's integrated terminal and the standalone terminals.
+ANSI_NAMES = [('Bright' if i > 7 else '') + n for i, n in enumerate(['Black', 'Red', 'Green', 'Yellow', 'Blue', 'Magenta', 'Cyan', 'White'] * 2)]
+ANSI = [P['border'], P['keyword'], P['mint'], P['yellow'], P['otherType'], P['preprocessor.macro'], P['otherMember.constant'], P['plainText'],
+        P['lineNumber'], P['insertionPointColor'], P['brightGreen'], P['number'], P['link'], P['brightMagenta'], P['brightCyan'], '#ffffff']
+
+def rgb(h): return tuple(int(h[i:i+2], 16)/255 for i in (1, 3, 5))
+
 # ---------- Xcode 26 ----------
 def xc(name):
     L, C, h = OK[name]
@@ -71,7 +78,7 @@ recipe = {
 
 # ---------- Xcode (legacy) ----------
 def c(h, a=1):
-    h = h.lstrip('#'); rr, gg, bb = (int(h[i:i+2], 16)/255 for i in (0, 2, 4))
+    rr, gg, bb = rgb(h)
     return f"{rr:.6f} {gg:.6f} {bb:.6f} {a}"
 leg = {
  'DVTConsoleDebuggerInputTextFont': 'SFMono-Regular - 12.0', 'DVTConsoleDebuggerOutputTextFont': 'SFMono-Regular - 12.0',
@@ -157,11 +164,7 @@ ui = {
  "gitDecoration.untrackedResourceForeground": P['mint'], "gitDecoration.ignoredResourceForeground": P['lineNumber'],
  "gitDecoration.conflictingResourceForeground": P['preprocessor.macro'],
  "terminal.background": P['consoleBackground'], "terminal.foreground": P['plainText'], "terminalCursor.foreground": P['insertionPointColor'],
- "terminal.ansiBlack": P['border'], "terminal.ansiRed": P['keyword'], "terminal.ansiGreen": P['mint'], "terminal.ansiYellow": P['number'],
- "terminal.ansiBlue": P['otherType'], "terminal.ansiMagenta": P['preprocessor.macro'], "terminal.ansiCyan": P['otherMember.constant'],
- "terminal.ansiWhite": P['plainText'], "terminal.ansiBrightBlack": P['lineNumber'], "terminal.ansiBrightRed": P['insertionPointColor'],
- "terminal.ansiBrightGreen": P['mint'], "terminal.ansiBrightYellow": P['number'], "terminal.ansiBrightBlue": P['link'],
- "terminal.ansiBrightMagenta": P['preprocessor.macro'], "terminal.ansiBrightCyan": P['otherMember.constant'], "terminal.ansiBrightWhite": "#ffffff",
+ **{f"terminal.ansi{n}": h for n, h in zip(ANSI_NAMES, ANSI)},
 }
 def tc(name, scope, fg, style=None):
     s = {"foreground": fg}
@@ -214,6 +217,36 @@ semantic = {
 theme = {"$schema": "vscode://schemas/color-theme", "name": "Midnight Cherry", "type": "dark", "semanticHighlighting": True,
          "colors": ui, "tokenColors": tokens, "semanticTokenColors": semantic}
 (ROOT / 'vscode/themes/midnight-cherry-color-theme.json').write_text(json.dumps(theme, indent=2))
+
+# ---------- Terminals ----------
+bg, fg, cursor, sel = P['consoleBackground'], P['plainText'], P['insertionPointColor'], P['selectedTextBackgroundColor']
+(ROOT / 'terminal/ghostty').mkdir(parents=True, exist_ok=True)
+
+# Terminal.app stores each color as a keyed-archived NSColor; NSID 7 tags it as sRGB.
+def nscolor(h):
+    return plistlib.dumps({'$archiver': 'NSKeyedArchiver', '$version': 100000, '$top': {'root': plistlib.UID(1)}, '$objects': [
+        '$null', {'$class': plistlib.UID(3), 'NSColorSpace': 1, 'NSComponents': c(h).encode(), 'NSCustomColorSpace': plistlib.UID(2)},
+        {'$class': plistlib.UID(4), 'NSID': 7},
+        {'$classname': 'NSColor', '$classes': ['NSColor', 'NSObject']},
+        {'$classname': 'NSColorSpace', '$classes': ['NSColorSpace', 'NSObject']}]}, fmt=plistlib.FMT_BINARY)
+profile = {'name': 'Midnight Cherry', 'type': 'Window Settings',
+           'BackgroundColor': nscolor(bg), 'TextColor': nscolor(fg), 'TextBoldColor': nscolor(fg),
+           'CursorColor': nscolor(cursor), 'SelectionColor': nscolor(sel),
+           **{f'ANSI{n}Color': nscolor(h) for n, h in zip(ANSI_NAMES, ANSI)}}
+(ROOT / 'terminal/Midnight Cherry.terminal').write_bytes(plistlib.dumps(profile, fmt=plistlib.FMT_XML))
+
+def iterm(h):
+    rr, gg, bb = rgb(h)
+    return {'Alpha Component': 1.0, 'Blue Component': bb, 'Color Space': 'sRGB', 'Green Component': gg, 'Red Component': rr}
+itc = {f'Ansi {i} Color': iterm(h) for i, h in enumerate(ANSI)}
+itc.update({'Background Color': iterm(bg), 'Foreground Color': iterm(fg), 'Bold Color': iterm(fg), 'Cursor Color': iterm(cursor),
+            'Cursor Text Color': iterm(bg), 'Selection Color': iterm(sel), 'Selected Text Color': iterm(fg), 'Link Color': iterm(P['link'])})
+(ROOT / 'terminal/Midnight Cherry.itermcolors').write_bytes(plistlib.dumps(itc, fmt=plistlib.FMT_XML))
+
+ghostty = [f'palette = {i}={h}' for i, h in enumerate(ANSI)] + [
+    f'background = {bg}', f'foreground = {fg}', f'cursor-color = {cursor}', f'cursor-text = {bg}',
+    f'selection-background = {sel}', f'selection-foreground = {fg}']
+(ROOT / 'terminal/ghostty/Midnight Cherry').write_text('\n'.join(ghostty) + '\n')
 
 # ---------- README palette table ----------
 README_PALETTE = [
