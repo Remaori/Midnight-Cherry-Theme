@@ -222,14 +222,21 @@ theme = {"$schema": "vscode://schemas/color-theme", "name": "Midnight Cherry", "
 bg, fg, cursor, sel = P['consoleBackground'], P['plainText'], P['insertionPointColor'], P['selectedTextBackgroundColor']
 (ROOT / 'terminal/ghostty').mkdir(parents=True, exist_ok=True)
 
-# Terminal.app stores each color as a keyed-archived NSColor; NSID 7 tags it as sRGB.
+# Terminal.app stores colors and fonts as keyed archives; NSID 7 tags a color as sRGB.
+def archived(*objects):
+    return plistlib.dumps({'$archiver': 'NSKeyedArchiver', '$version': 100000, '$top': {'root': plistlib.UID(1)},
+                           '$objects': ['$null', *objects]}, fmt=plistlib.FMT_BINARY)
 def nscolor(h):
-    return plistlib.dumps({'$archiver': 'NSKeyedArchiver', '$version': 100000, '$top': {'root': plistlib.UID(1)}, '$objects': [
-        '$null', {'$class': plistlib.UID(3), 'NSColorSpace': 1, 'NSComponents': c(h).encode(), 'NSCustomColorSpace': plistlib.UID(2)},
-        {'$class': plistlib.UID(4), 'NSID': 7},
-        {'$classname': 'NSColor', '$classes': ['NSColor', 'NSObject']},
-        {'$classname': 'NSColorSpace', '$classes': ['NSColorSpace', 'NSObject']}]}, fmt=plistlib.FMT_BINARY)
+    return archived({'$class': plistlib.UID(3), 'NSColorSpace': 1, 'NSComponents': c(h).encode(), 'NSCustomColorSpace': plistlib.UID(2)},
+                    {'$class': plistlib.UID(4), 'NSID': 7},
+                    {'$classname': 'NSColor', '$classes': ['NSColor', 'NSObject']},
+                    {'$classname': 'NSColorSpace', '$classes': ['NSColorSpace', 'NSObject']})
+def nsfont(name, size):
+    return archived({'$class': plistlib.UID(3), 'NSName': plistlib.UID(2), 'NSSize': size, 'NSfFlags': 16}, name,
+                    {'$classname': 'NSFont', '$classes': ['NSFont', 'NSObject']})
+# Without a Font key Terminal falls back to non-antialiased Monaco 10.
 profile = {'name': 'Midnight Cherry', 'type': 'Window Settings',
+           'Font': nsfont('Menlo-Regular', 14.0), 'FontAntialias': True, 'columnCount': 120, 'rowCount': 30,
            'BackgroundColor': nscolor(bg), 'TextColor': nscolor(fg), 'TextBoldColor': nscolor(fg),
            'CursorColor': nscolor(cursor), 'SelectionColor': nscolor(sel),
            **{f'ANSI{n}Color': nscolor(h) for n, h in zip(ANSI_NAMES, ANSI)}}

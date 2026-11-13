@@ -200,6 +200,17 @@
 	AMcA0ADbAN4A5gDvAPQA9wD6AP8BAQAAAAAAAAIBAAAAAAAAACEAAAAAAAAAAAAAAAAA
 	AAEG
 	</data>
+	<key>Font</key>
+	<data>
+	YnBsaXN0MDDUAQIDBAUGGBtZJGFyY2hpdmVyWCRvYmplY3RzVCR0b3BYJHZlcnNpb25f
+	EA9OU0tleWVkQXJjaGl2ZXKkBwgRElUkbnVsbNQJCgsMDQ4PEFYkY2xhc3NWTlNOYW1l
+	Vk5TU2l6ZVhOU2ZGbGFnc4ADgAIjQCwAAAAAAAAQEF1NZW5sby1SZWd1bGFy0hMUFRZY
+	JGNsYXNzZXNaJGNsYXNzbmFtZaIWF1ZOU0ZvbnRYTlNPYmplY3TRGRpUcm9vdIABEgAB
+	hqAIERskKTJESU9YX2Ztdnh6g4WTmKGsr7a/wsfJAAAAAAAAAQEAAAAAAAAAHAAAAAAA
+	AAAAAAAAAAAAAM4=
+	</data>
+	<key>FontAntialias</key>
+	<true/>
 	<key>SelectionColor</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGHSBZJGFyY2hpdmVyWCRvYmplY3RzVCR0b3BYJHZlcnNpb25f
@@ -233,8 +244,12 @@
 	AMcA0ADbAN4A5gDvAPQA9wD6AP8BAQAAAAAAAAIBAAAAAAAAACEAAAAAAAAAAAAAAAAA
 	AAEG
 	</data>
+	<key>columnCount</key>
+	<integer>120</integer>
 	<key>name</key>
 	<string>Midnight Cherry</string>
+	<key>rowCount</key>
+	<integer>30</integer>
 	<key>type</key>
 	<string>Window Settings</string>
 </dict>
